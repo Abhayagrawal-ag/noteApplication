@@ -4,8 +4,7 @@
   "description": "A full-stack notes application",
   "main": "backend/server.js",
   "scripts": {
-    "start": "cd backend && npm start",
-    "build": "cd frontend && npm run build"
+    "start": "cd backend && npm start"
   },
   "engines": {
     "node": ">=14.0.0"
