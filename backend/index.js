@@ -16,6 +16,9 @@ app.use(cors({
   origin: 'https://notes-app-eight-black.vercel.app',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
 }));
+app.get("/", (req, res) => {
+  res.send("this is note applicaiton")
+})
 app.use('/auth', auth)
 app.get('/notes', async (req, res) =>{
   const userEmail = req.query.email;
