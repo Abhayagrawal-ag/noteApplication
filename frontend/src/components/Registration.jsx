@@ -61,7 +61,7 @@ function Registration() {
   };
   return (
     <>
-    <h1 style={{background: '#3366FF'}} className='w-full text-white text-center p-3'>NoteKeeper</h1>
+    <h1 style={{background: '#3366FF'}} className='w-full text-white text-center text-xl p-3'>NoteKeeper</h1>
     <div className='flex flex-col items-center justify-center '>
       <form onSubmit={handleRegistration} className='flex flex-col items-center gap-12 mt-20 sm:mt-22 md:mt-24'>
         <input  type="text" placeholder="Email"
