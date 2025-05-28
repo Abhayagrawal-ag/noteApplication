@@ -12,7 +12,10 @@ mongoose.connect(process.env.MONGO_URI)
  // DB connection completed
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: 'https://notes-app-eight-black.vercel.app',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+}));
 app.use('/auth', auth)
 app.get('/notes', async (req, res) =>{
   const userEmail = req.query.email;
