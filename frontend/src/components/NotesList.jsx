@@ -8,7 +8,7 @@ function NotesList(){
   const fetchNotes = async () => {
     try {
       const userEmail = localStorage.getItem('email');
-      const response = await axios.get('http://notesapp-production-97fe.up.railway.app/notes',{params: { email: userEmail }});
+      const response = await axios.get('https://notesapp-production-97fe.up.railway.app/notes',{params: { email: userEmail }});
       setNotes(response.data);
     } catch (error) {
       console.error('Error fetching notes:', error);
@@ -19,7 +19,7 @@ function NotesList(){
 const deleteNote = async (id) => {
   try {
     const userEmail = localStorage.getItem('email');
-    await axios.delete(`http://notesapp-production-97fe.up.railway.app/notes/${id}`, { params: { email: userEmail } });
+    await axios.delete(`https://notesapp-production-97fe.up.railway.app/notes/${id}`, { params: { email: userEmail } });
     setNotes(notes.filter(note => note._id !== id));
   } catch (error) {
     console.error('Error deleting note:', error);

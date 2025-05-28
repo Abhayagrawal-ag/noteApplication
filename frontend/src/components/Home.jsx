@@ -13,7 +13,7 @@ function Home() {
     }
      try {
       const userEmail = localStorage.getItem('email');
-      const response = await axios.post('http://notesapp-production-97fe.up.railway.app/notes', { text,userEmail });
+      const response = await axios.post('https://notesapp-production-97fe.up.railway.app/notes', { text,userEmail });
       toast.success('Note added successfully', {
         autoClose: 1500,
       });

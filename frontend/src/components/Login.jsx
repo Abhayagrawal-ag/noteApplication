@@ -21,7 +21,7 @@ import { useNavigate } from 'react-router-dom';
       });
     }
     try {
-      const response = await axios.post('http://notesapp-production-97fe.up.railway.app/auth/login', { email, password });  
+      const response = await axios.post('https://notesapp-production-97fe.up.railway.app/auth/login', { email, password });  
       localStorage.setItem('email', email);
       toast.success('Sign in successful', {
         autoClose: 1500,
