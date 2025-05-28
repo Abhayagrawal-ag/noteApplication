@@ -28,14 +28,14 @@ function Home() {
   return (
     <div style={{background: '#F9FAFB'}} className="min-h-screen w-full flex flex-col items-center justify-start p-4"> 
       <h1 style={{background:'#3366FF'}} className="  w-screen text-center text-white text-2xl sm:text-4xl md:text-3xl font-semibold p-2 rounded-md">Notes App</h1>
-      <div className='flex flex-col items-center gap-9'>
+      <div className='flex flex-col items-center gap-9 mt-4'>
         <textarea value={text}
         onChange={(e) => setText(e.target.value)} style={{background: '#FFFFFF'}}
         className=" h-[170px] w-[260px] sm:h-[250px] sm:w-[250px] md:h-[230px] md:w-[500px] text-xl pt-2 pl-2 sm:text-2xl md:text-3xl rounded-md shadow-md  mt-0 resize-none placeholder:text-xl sm:placeholder:text-3xl md:placeholder:text-xl placeholder:font-bold "
         placeholder="Write a note..."
        ></textarea>
         <button onClick={handleAddNote} style={{background :'#3366FF'}} className=" text-white outline outline-offset-2 h-[40px] w-[120px]  font-bold rounded-md" >Add Note</button>
-        <button onClick={changeRoute} className=" mt-32 outline outline-offset-2 bg-white h-[40px] w-[120px] font-bold rounded-md text-black">View Notes</button>
+        <button onClick={changeRoute} className=" mt-22 outline outline-offset-2 bg-white h-[40px] w-[140px] font-bold rounded-md text-black">View Notes</button>
       </div>
     </div>
   );
