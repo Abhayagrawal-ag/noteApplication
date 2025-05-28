@@ -20,7 +20,7 @@ function Registration() {
         autoClose: 1500});
       }
     try{
-      await axios.delete('http://localhost:3000/auth/delete', { data: { email, password } });
+      await axios.delete('http://notesapp-production-97fe.up.railway.app/auth/delete', { data: { email, password } });
       toast.success('Account deleted. you can register again.', {
         autoClose: 1500,
       });
@@ -47,7 +47,7 @@ function Registration() {
         autoClose: 1500});
       }
     try {
-      const response = await axios.post('http://localhost:3000/auth/register', { email, password });
+      const response = await axios.post('http://notesapp-production-97fe.up.railway.app/auth/register', { email, password });
       localStorage.setItem('email', email);
       toast.success('Sign up successful', {
         autoClose: 1500,
