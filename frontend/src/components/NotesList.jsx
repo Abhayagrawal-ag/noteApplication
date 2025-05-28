@@ -30,7 +30,7 @@ const deleteNote = async (id) => {
       <div style={{background :'#3366FF'}} className="  w-full text-2xl font-bold text-center p-4 text-white ">All Notes here...</div>
       <div className="  w-full flex flex-col items-center bg-gray-100 gap-1 py-8">
       {notes.map((note) => (
-        <div key={note._id} className="bg-white p-4 m-4  rounded-md  w-[350px] sm:w-[500px] md:w-[600px]">
+        <div key={note._id} className="bg-white p-4 m-4  rounded-md  w-[300px] sm:w-[500px] md:w-[600px]">
           <div className='flex items-center justify-between'>
             <div className='flex flex-col  justify-start'>
             <p className='text-black font-bold'>{note.text}</p>
