@@ -16,7 +16,10 @@ app.use(express.json());
 //   origin: 'https://notes-app-eight-black.vercel.app',
 //   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
 // }));
-app.use(cors("*"));
+app.use(cors({
+  origin: "https://noteapplication-frontend.onrender.com",
+  credentials: true
+}));
 
 // app.use(cors({
 //   origin: '*',
