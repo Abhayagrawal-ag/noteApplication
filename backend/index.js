@@ -12,10 +12,18 @@ mongoose.connect(process.env.MONGO_URI)
  // DB connection completed
 const app = express();
 app.use(express.json());
-app.use(cors({
-  origin: 'https://notes-app-eight-black.vercel.app',
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-}));
+// app.use(cors({
+//   origin: 'https://notes-app-eight-black.vercel.app',
+//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+// }));
+app.use(cors("*"));
+
+// app.use(cors({
+//   origin: '*',
+//   credentials: true
+// }));
+
+
 app.get("/", (req, res) => {
   res.send("this is note applicaiton")
 })
@@ -50,6 +58,28 @@ app.post('/notes', async (req,res)=> {
     res.status(500).json({ error: 'Internal server error' });
   }  
 })
+
+// Backend mein yah route add karo
+app.put('/notes/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { text, email } = req.body;
+    
+    const updatedNote = await Note.findOneAndUpdate(
+      { _id: id, userEmail: email }, // Note owner verify karo
+      { text: text },
+      { new: true }
+    );
+    
+    if (!updatedNote) {
+      return res.status(404).json({ message: 'Note not found' });
+    }
+    
+    res.json(updatedNote);
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating note' });
+  }
+});
 
 app.delete('/notes/:id', async (req,res)=>{
   const userEmail = req.query.email;

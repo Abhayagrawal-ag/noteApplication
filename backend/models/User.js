@@ -7,8 +7,22 @@ const userSchema = new mongoose.Schema({
   },
   password:{
     type:String,
+    required:true,
+    minlength:8
+  },
+  isVerified:{
+    type:Boolean,
+    default:false
+  },
+  verificationCode:{
+    type:String,
     required:true
   },
+  verificationCodeExpires:{
+    type:Date,
+    required:true
+  }
+  
 }, { timestamps: true });
 export default mongoose.model('User', userSchema);
   

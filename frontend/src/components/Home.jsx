@@ -13,7 +13,7 @@ function Home() {
     }
      try {
       const userEmail = localStorage.getItem('email');
-      const response = await axios.post('https://notesapp-production-97fe.up.railway.app/notes', { text,userEmail });
+      const response = await axios.post('http://localhost:3000/notes', { text,userEmail });
       toast.success('Note added successfully', {
         autoClose: 1500,
       });
@@ -27,7 +27,7 @@ function Home() {
   }
   return (
     <div style={{background: '#F9FAFB'}} className="min-h-screen w-full flex flex-col items-center justify-start p-4"> 
-      <h1 style={{background:'#3366FF'}} className="  w-screen text-center text-white text-2xl sm:text-4xl md:text-3xl font-semibold p-2 rounded-md">Notes App</h1>
+      <h1 style={{background:'#3366FF'}} className="  w-screen text-center text-white text-2xl sm:text-4xl md:text-3xl font-semibold p-2 rounded-md">Notepad</h1>
       <div className='flex flex-col items-center gap-9 mt-4'>
         <textarea value={text}
         onChange={(e) => setText(e.target.value)} style={{background: '#FFFFFF'}}

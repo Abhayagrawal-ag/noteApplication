@@ -5,14 +5,24 @@ import Home from './components/Home';
 import NotesList from './components/NotesList';
 import Registration from './components/Registration';
 import Login from './components/Login';
+import ShareNotes from './components/ShareNotes';
+import AllSharedNotes from './components/AllSharedNotes';
+import First from './components/First';
+import About from './components/About';
 
 function App() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
-      <Route path="/" element={<Registration />}/>
+      <Route path="signup" element={<Registration />}/>
       <Route path="/home" element={<Home />} />
       <Route path="/notes" element={<NotesList />} />
+      <Route path="/sharenotes" element={<ShareNotes />} />
+      <Route path="/allsharenote" element={<AllSharedNotes />} />
+       <Route path="/" element={<First />} />
+        <Route path="about" element={<About />} />
+
+      
     </Routes>
   );
 }
