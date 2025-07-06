@@ -29,7 +29,7 @@ function Registration() {
       });
     }
     try {
-      const response = await axios.post('http://localhost:3000/auth/verify', { 
+      const response = await axios.post('https://noteapplication-backend.onrender.com/auth/verify', { 
         code: otp 
       });
       toast.success(response.data.message || 'Email verified successfully!', {
@@ -57,7 +57,7 @@ function Registration() {
     }
 
     try {
-      const response = await axios.post('http://localhost:3000/auth/resend-otp', {
+      const response = await axios.post('https://noteapplication-backend.onrender.com/auth/resend-otp', {
         email: storedEmail
       });
       toast.success(response.data.message || 'New OTP sent successfully!', {
@@ -91,7 +91,7 @@ function Registration() {
     }
 
     try{
-      await axios.delete('http://localhost:3000/auth/delete', { data: { email, password } });
+      await axios.delete('https://noteapplication-backend.onrender.com/auth/delete', { data: { email, password } });
       toast.success('Account deleted. you can register again.', {
         autoClose: 1500,
       });
@@ -124,7 +124,7 @@ function Registration() {
       });
     }
     try {
-      const response = await axios.post('http://localhost:3000/auth/register', { email, password });
+      const response = await axios.post('https://noteapplication-backend.onrender.com/auth/register', { email, password });
         localStorage.setItem('email', email);
          localStorage.setItem('otpPending', 'true');
         toast.success("Sign up successfull, now verify your Email", {
