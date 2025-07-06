@@ -28,7 +28,7 @@ import {Eye, EyeOff} from 'lucide-react'
           });
         }
     try {
-      const response = await axios.post('http://localhost:3000/auth/login', { email, password });  
+      const response = await axios.post('https://noteapplication-backend.onrender.com/auth/login', { email, password });  
       localStorage.setItem('email', email);
       toast.success('Sign in successful', {
         autoClose: 1500,
