@@ -184,7 +184,7 @@ function Registration() {
 
         {showOtpBox && (
         <div className=" fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-10 rounded-2xl  w-65 sm:w-80 md:w-80 ">
+          <div className="bg-white p-10 rounded-2xl  w-75 sm:w-80 md:w-80 ">
             <h2 className="text-xl font-semibold mb-4 text-center ">Enter OTP</h2>
              <h2 className="text-xs text-gray-500 font-semibold mb-4 text-center ">OTP has sent to the registered Email</h2>
             <input
