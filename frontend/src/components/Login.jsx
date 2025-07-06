@@ -52,7 +52,7 @@ import {Eye, EyeOff} from 'lucide-react'
 
           
 
-        <div className="relative w-60 sm:w-70 md:w-80">
+        <div className="relative w-50 sm:w-80 md:w-80">
           <input 
             type={showPassword ? "text" : "password"} 
             placeholder="Password"
