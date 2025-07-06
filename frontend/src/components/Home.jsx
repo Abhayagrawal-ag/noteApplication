@@ -13,7 +13,7 @@ function Home() {
     }
      try {
       const userEmail = localStorage.getItem('email');
-      const response = await axios.post('http://localhost:3000/notes', { text,userEmail });
+      const response = await axios.post('https://noteapplication-backend.onrender.com/notes', { text,userEmail });
       toast.success('Note added successfully', {
         autoClose: 1500,
       });
