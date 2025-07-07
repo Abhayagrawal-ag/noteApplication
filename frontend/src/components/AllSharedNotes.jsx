@@ -17,7 +17,7 @@ function AllSharedNotes() {
   const fetchSharedNotes = async () => {
     try {
       const userEmail = localStorage.getItem('email');
-      const response = await axios.get('http://localhost:3000/auth/shared-notes', {
+      const response = await axios.get('https://noteapplication-backend.onrender.com/auth/shared-notes', {
         params: { email: userEmail }
       });
       
@@ -43,7 +43,7 @@ function AllSharedNotes() {
 
     try {
       const userEmail = localStorage.getItem('email');
-      const response = await axios.delete(`http://localhost:3000/auth/shared-notes/${sharedNoteId}`, {
+      const response = await axios.delete(`https://noteapplication-backend.onrender.com/auth/shared-notes/${sharedNoteId}`, {
         data: { email: userEmail } // Send email in request body for DELETE
       });
       

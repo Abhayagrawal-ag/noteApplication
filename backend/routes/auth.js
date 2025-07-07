@@ -102,6 +102,55 @@ router.post('/login', async (req, res) => {
 //     res.status(500).json({ message: 'Internal server error' });
 //   }
 // });
+<<<<<<< HEAD
+=======
+
+router.delete('/user/:email', async (req, res) => {
+  try {
+    const { email } = req.params;
+    
+    // Decode the email parameter properly
+    const decodedEmail = decodeURIComponent(email);
+    
+    // Validate email parameter
+    if (!decodedEmail) {
+      return res.status(400).json({
+        error: 'Email is required'
+      });
+    }
+
+    console.log(`Attempting to delete account for email: ${decodedEmail}`);
+
+    // Delete all notes for this user first
+    const deletedNotes = await Note.deleteMany({ userEmail: decodedEmail });
+    console.log(`Deleted ${deletedNotes.deletedCount} notes for user: ${decodedEmail}`);
+
+    // Delete user account
+    const deletedUser = await User.deleteOne({ email: decodedEmail });
+    
+    if (deletedUser.deletedCount === 0) {
+      return res.status(404).json({
+        error: 'User not found'
+      });
+    }
+
+    console.log(`Successfully deleted account for email: ${decodedEmail}`);
+    
+    res.status(200).json({
+      message: 'Account and all associated notes deleted successfully',
+      deletedNotes: deletedNotes.deletedCount,
+      deletedUser: deletedUser.deletedCount
+    });
+  } catch (error) {
+    console.error('Error deleting account:', error);
+    res.status(500).json({
+      error: 'Internal server error. Failed to delete account.',
+      details: error.message
+    });
+  }
+});
+>>>>>>> 3fd29a5cb37b6b39d4ce0670aa34472fbff58b2e
+
 
 // verify
 router.post('/verify', async (req, res) => {

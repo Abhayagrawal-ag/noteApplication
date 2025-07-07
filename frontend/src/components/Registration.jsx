@@ -29,7 +29,7 @@ function Registration() {
       });
     }
     try {
-      const response = await axios.post('http://localhost:3000/auth/verify', { 
+      const response = await axios.post('https://noteapplication-backend.onrender.com/auth/verify', { 
         code: otp 
       });
       toast.success(response.data.message || 'Email verified successfully!', {
@@ -57,7 +57,7 @@ function Registration() {
     }
 
     try {
-      const response = await axios.post('http://localhost:3000/auth/resend-otp', {
+      const response = await axios.post('https://noteapplication-backend.onrender.com/auth/resend-otp', {
         email: storedEmail
       });
       toast.success(response.data.message || 'New OTP sent successfully!', {
@@ -72,7 +72,44 @@ function Registration() {
     }
   };
 
+<<<<<<< HEAD
   
+=======
+  // const handleDeleteAccount = async (e) => {
+  //   e.preventDefault();
+  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  //   if(!email || !password) {
+  //     return toast.error('Error: Please fill in all fields', {
+  //       autoClose: 1500,
+  //     });
+  //   }
+  //   if (!emailRegex.test(email)) {
+  //     return toast.error('Error: Please enter a valid email address', {
+  //       autoClose: 1500});
+  //     }
+  //     if (password.length < 8) {
+  //      return toast.error('Error: Password must be at least 8 characters long', {
+  //       autoClose: 1500,
+  //     });
+  //   }
+
+  //   try{
+  //     await axios.delete('https://noteapplication-backend.onrender.com/auth/delete', { data: { email, password } });
+  //     toast.success('Account deleted. you can register again.', {
+  //       autoClose: 1500,
+  //     });
+  //     localStorage.removeItem('email');
+  //     localStorage.removeItem('showOtpBox');   ///
+  //     setEmail('');
+  //     setPassword('');
+  //     } catch (error) {
+  //       const errorMessage = error.response?.data?.message || 'Error deleting account'; 
+  //       toast.error('Error deleting account', {
+  //         autoClose: 1500,  
+  //       });
+  //     } 
+  // };
+>>>>>>> 3fd29a5cb37b6b39d4ce0670aa34472fbff58b2e
   const handleRegistration = async (e) => {
     e.preventDefault();
     if (!email || !password) {
@@ -91,7 +128,7 @@ function Registration() {
       });
     }
     try {
-      const response = await axios.post('http://localhost:3000/auth/register', { email, password });
+      const response = await axios.post('https://noteapplication-backend.onrender.com/auth/register', { email, password });
         localStorage.setItem('email', email);
          localStorage.setItem('otpPending', 'true');
         toast.success("Sign up successfull, now verify your Email", {
@@ -145,21 +182,32 @@ function Registration() {
 
         <button  type="submit" className='bg-blue-500 text-white  p-3 rounded-md w-60 sm:w-70 md:w-80 font-bold '>Sign up</button>
       </form>
+<<<<<<< HEAD
       <p className='text-gray-500  mt-8'>Click here to verify your email. <span onClick={setShowOtpBox} className='text-blue-500 cursor-pointer text-center '>Verify Email</span></p>
       {/* <p  className='text-gray-500 mt-4 text-center'>Stuck or want to re-register? {''}<span onClick={handleDeleteAccount} className='text-blue-500 cursor-pointer'>DeleteAccount</span></p> */}
+=======
+      <p className='text-gray-500 text-xs mt-8'>Click here to verify your email. <span onClick={setShowOtpBox} className='text-blue-500 cursor-pointer text-center '>Verify Email</span></p>
+{/*       <p  className='text-gray-500 mt-4 text-center'>Stuck or want to re-register? {''}<span onClick={handleDeleteAccount} className='text-blue-500 cursor-pointer'>DeleteAccount</span></p> */}
+>>>>>>> 3fd29a5cb37b6b39d4ce0670aa34472fbff58b2e
       </div>
 
         {showOtpBox && (
         <div className=" fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+<<<<<<< HEAD
           <div className="bg-white p-10 rounded-2xl  w-70 sm:w-80 md:w-80 ">
             <h2 className="text-xl font-semibold mb-4 text-center ">Enter OTP</h2>
             <h2 className="text-xs text-gray-500 font-semibold mb-4 text-center ">OTP has sent to the registered Email </h2>
+=======
+          <div className="bg-white p-10 rounded-2xl  w-75 sm:w-80 md:w-80 ">
+            <h2 className="text-xl font-semibold mb-4 text-center ">Enter OTP</h2>
+             <h2 className="text-xs text-gray-500 font-semibold mb-4 text-center ">OTP has sent to the registered Email</h2>
+>>>>>>> 3fd29a5cb37b6b39d4ce0670aa34472fbff58b2e
             <input
               type="text"
               placeholder="6-digit OTP"
               value={otp}
               onChange={(e) => setOtp(e.target.value)}
-              className="placeholder:text-xl w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-6"
+              className="placeholder:text-xs w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-6"
             />
              <div className="mt-6"></div>
             <button

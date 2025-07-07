@@ -12,8 +12,19 @@ mongoose.connect(process.env.MONGO_URI)
  
 const app = express();
 app.use(express.json());
+<<<<<<< HEAD
 
 app.use(cors("*"));
+=======
+// app.use(cors({
+//   origin: 'https://notes-app-eight-black.vercel.app',
+//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+// }));
+app.use(cors({
+  origin: "https://noteapplication-frontend.onrender.com",
+  credentials: true
+}));
+>>>>>>> 3fd29a5cb37b6b39d4ce0670aa34472fbff58b2e
 
 
 
