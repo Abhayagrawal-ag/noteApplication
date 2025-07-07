@@ -173,7 +173,7 @@ function Registration() {
             Sign up
           </button>
         </form>
-        <p className="text-gray-500  mt-8">
+        <p className="text-gray-500 text.xs mt-8">
           Click here to verify your email.{" "}
           <span
             onClick={setShowOtpBox}
