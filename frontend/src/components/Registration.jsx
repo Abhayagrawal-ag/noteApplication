@@ -1,162 +1,199 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import {toast} from 'react-toastify';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import {Eye, EyeOff} from 'lucide-react';
+import React from "react";
+import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { Eye, EyeOff } from "lucide-react";
 function Registration() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const[showOtpBox, setShowOtpBox] = useState(false);
-  const[otp,setOtp] = useState("");
-   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showOtpBox, setShowOtpBox] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
-    const storedEmail = localStorage.getItem('email');
-    const otpPending = localStorage.getItem('otpPending');
-    
-    if (storedEmail && otpPending === 'true') {
+    const storedEmail = localStorage.getItem("email");
+    const otpPending = localStorage.getItem("otpPending");
+
+    if (storedEmail && otpPending === "true") {
       setShowOtpBox(true);
     }
   }, []);
 
-
   const handleVerifyOtp = async () => {
     if (!otp) {
-      return toast.error('Please enter OTP', {
+      return toast.error("Please enter OTP", {
         autoClose: 1500,
       });
     }
     try {
-      const response = await axios.post('http://localhost:3000/auth/verify', { 
-        code: otp 
-      });
-      toast.success(response.data.message || 'Email verified successfully!', {
+      const response = await axios.post(
+        "https://noteapplication-backend.onrender.com/auth/verify",
+        {
+          code: otp,
+        }
+      );
+      toast.success(response.data.message || "Email verified successfully!", {
         autoClose: 1500,
       });
       setShowOtpBox(false);
-      setOtp('');
-      localStorage.removeItem('email'); 
-      localStorage.removeItem('otpPending');   //
-      navigate('/login');
+      setOtp("");
+      localStorage.removeItem("email");
+      localStorage.removeItem("otpPending"); //
+      navigate("/login");
     } catch (error) {
-      const errorMessage = error.response?.data?.message || 'Invalid OTP';
+      const errorMessage = error.response?.data?.message || "Invalid OTP";
       toast.error(errorMessage, {
         autoClose: 1500,
       });
     }
   };
 
-   const handleResendOtp = async () => {
-    const storedEmail = localStorage.getItem('email');
+  const handleResendOtp = async () => {
+    const storedEmail = localStorage.getItem("email");
     if (!storedEmail) {
-      return toast.error('Email not found. Please register again.', {
+      return toast.error("Email not found. Please register again.", {
         autoClose: 1500,
       });
     }
 
     try {
-      const response = await axios.post('http://localhost:3000/auth/resend-otp', {
-        email: storedEmail
-      });
-      toast.success(response.data.message || 'New OTP sent successfully!', {
+      const response = await axios.post(
+        "https://noteapplication-backend.onrender.com/auth/resend-otp",
+        {
+          email: storedEmail,
+        }
+      );
+      toast.success(response.data.message || "New OTP sent successfully!", {
         autoClose: 1500,
       });
-      setOtp(''); 
+      setOtp("");
     } catch (error) {
-      const errorMessage = error.response?.data?.message || 'Failed to resend OTP';
+      const errorMessage =
+        error.response?.data?.message || "Failed to resend OTP";
       toast.error(errorMessage, {
         autoClose: 1500,
       });
     }
   };
 
-  
-  
   const handleRegistration = async (e) => {
     e.preventDefault();
     if (!email || !password) {
-      return toast.error('Error: Please fill in all fields', {
+      return toast.error("Error: Please fill in all fields", {
         autoClose: 1500,
       });
     }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      return toast.error('Error: Please enter a valid email address', {
-        autoClose: 1500});
-      }
-       if (password.length < 8) {
-       return toast.error('Error: Password must be at least 8 characters long', {
+      return toast.error("Error: Please enter a valid email address", {
+        autoClose: 1500,
+      });
+    }
+    if (password.length < 8) {
+      return toast.error("Error: Password must be at least 8 characters long", {
         autoClose: 1500,
       });
     }
     try {
-      const response = await axios.post('http://localhost:3000/auth/register', { email, password });
-        localStorage.setItem('email', email);
-         localStorage.setItem('otpPending', 'true');
-        toast.success("Sign up successfull, now verify your Email", {
-          autoClose:1500,
-        })
-        setEmail('');
-        setPassword('');
-        setShowOtpBox(true)
-    } catch (error) { 
-      toast.error('User already exists', {
+      const response = await axios.post(
+        "https://noteapplication-backend.onrender.com/auth/register",
+        { email, password }
+      );
+      localStorage.setItem("email", email);
+      localStorage.setItem("otpPending", "true");
+      toast.success("Sign up successfull, now verify your Email", {
+        autoClose: 1500,
+      });
+      setEmail("");
+      setPassword("");
+      setShowOtpBox(true);
+    } catch (error) {
+      toast.error("User already exists", {
         autoClose: 1500,
       });
     }
-      
   };
   return (
     <>
-    <h1 style={{background: '#3366FF'}} className='w-full text-white text-center text-xl p-3'>NotesKeeper</h1>
-     <p className='text-gray-500 mt-4 text-center  md:text-xl'>Already have an account? <span  className='text-blue-500 cursor-pointer ' onClick={() => navigate('/login')}>Sign in</span></p>
-    <div className='flex flex-col items-center justify-center '>
-      <form onSubmit={handleRegistration} className='flex flex-col items-center gap-12 mt-20 sm:mt-22 md:mt-24'>
-        <input  type="text" placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        className='border border-gray-300 p-3 rounded-md w-60 sm:w-70 md:w-80 placeholder:text-xl placeholder:sm:text-2xl placeholder:md:text-2xl' ></input>
-       
+      <h1
+        style={{ background: "#3366FF" }}
+        className="w-full text-white text-center text-xl p-3"
+      >
+        NotesKeeper
+      </h1>
+      <p className="text-gray-500 mt-4 text-center  md:text-xl">
+        Already have an account?{" "}
+        <span
+          className="text-blue-500 cursor-pointer "
+          onClick={() => navigate("/login")}
+        >
+          Sign in
+        </span>
+      </p>
+      <div className="flex flex-col items-center justify-center ">
+        <form
+          onSubmit={handleRegistration}
+          className="flex flex-col items-center gap-12 mt-20 sm:mt-22 md:mt-24"
+        >
+          <input
+            type="text"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="border border-gray-300 p-3 rounded-md w-60 sm:w-70 md:w-80 placeholder:text-xl placeholder:sm:text-2xl placeholder:md:text-2xl"
+          ></input>
 
-       <div className="relative w-60 sm:w-70 md:w-80">
-          <input 
-            type={showPassword ? "text" : "password"} 
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className='border border-gray-300 p-3 rounded-md w-full placeholder:text-xl placeholder:sm:text-2xl placeholder:md:text-2xl pr-12' 
-          />
+          <div className="relative w-60 sm:w-70 md:w-80">
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="border border-gray-300 p-3 rounded-md w-full placeholder:text-xl placeholder:sm:text-2xl placeholder:md:text-2xl pr-12"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+            >
+              {showPassword ? (
+                <EyeOff size={20} className="cursor-pointer" />
+              ) : (
+                <Eye size={20} className="cursor-pointer" />
+              )}
+            </button>
+          </div>
+
           <button
-            type="button"
-            onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+            type="submit"
+            className="bg-blue-500 text-white  p-3 rounded-md w-60 sm:w-70 md:w-80 font-bold "
           >
-
-                      {showPassword ? (
-              <EyeOff size={20} className="cursor-pointer" />
-            ) : (
-              <Eye size={20} className="cursor-pointer" />
-            )}
-
-
-          </button> 
-         </div>
-
-        <button  type="submit" className='bg-blue-500 text-white  p-3 rounded-md w-60 sm:w-70 md:w-80 font-bold '>Sign up</button>
-      </form>
-      <p className='text-gray-500  mt-8'>Click here to verify your email. <span onClick={setShowOtpBox} className='text-blue-500 cursor-pointer text-center '>Verify Email</span></p>
-     
-     
+            Sign up
+          </button>
+        </form>
+        <p className="text-gray-500  mt-8">
+          Click here to verify your email.{" "}
+          <span
+            onClick={setShowOtpBox}
+            className="text-blue-500 cursor-pointer text-center "
+          >
+            Verify Email
+          </span>
+        </p>
       </div>
 
-        {showOtpBox && (
+      {showOtpBox && (
         <div className=" fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-10 rounded-2xl  w-70 sm:w-80 md:w-80 ">
-            <h2 className="text-xl font-semibold mb-4 text-center ">Enter OTP</h2>
-            <h2 className="text-xs text-gray-500 font-semibold mb-4 text-center ">OTP has sent to the registered Email </h2>
-          {/* <div className="bg-white p-10 rounded-2xl  w-75 sm:w-80 md:w-80 ">
+            <h2 className="text-xl font-semibold mb-4 text-center ">
+              Enter OTP
+            </h2>
+            <h2 className="text-xs text-gray-500 font-semibold mb-4 text-center ">
+              OTP has sent to the registered Email{" "}
+            </h2>
+            {/* <div className="bg-white p-10 rounded-2xl  w-75 sm:w-80 md:w-80 ">
             <h2 className="text-xl font-semibold mb-4 text-center ">Enter OTP</h2>
              <h2 className="text-xs text-gray-500 font-semibold mb-4 text-center ">OTP has sent to the registered Email</h2> */}
             <input
@@ -166,31 +203,25 @@ function Registration() {
               onChange={(e) => setOtp(e.target.value)}
               className="placeholder:text-xs w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-6"
             />
-             <div className="mt-6"></div>
+            <div className="mt-6"></div>
             <button
               onClick={handleVerifyOtp}
               className="  w-full font-bold bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition duration-200"
-            >Verify OTP
+            >
+              Verify OTP
             </button>
-              <div className="mt-6"></div>
-             <button onClick={handleResendOtp}
+            <div className="mt-6"></div>
+            <button
+              onClick={handleResendOtp}
               className="  w-full font-bold bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-200"
-            >Resend OTP
+            >
+              Resend OTP
             </button>
-             
           </div>
         </div>
-      // </div> 
-        )}
-      
-
-        
-        </> 
-    );
-       
-
-  
+        // </div>
+      )}
+    </>
+  );
 }
 export default Registration;
-
-  

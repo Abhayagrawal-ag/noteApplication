@@ -1,7 +1,3 @@
-
-
-
-
 import React, { useState, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -14,32 +10,35 @@ function ShareNotes() {
   const [noteData, setNoteData] = useState(null);
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const noteId = searchParams.get('noteId');
+  const noteId = searchParams.get("noteId");
 
   useEffect(() => {
     // Fetch note data when component mounts
     const fetchNoteData = async () => {
       if (noteId) {
         try {
-          const userEmail = localStorage.getItem('email');
-          const response = await axios.get(`http://localhost:3000/auth/notes/${noteId}`, {
-            params: { email: userEmail }
-          });
+          const userEmail = localStorage.getItem("email");
+          const response = await axios.get(
+            `https://noteapplication-backend.onrender.com/auth/notes/${noteId}`,
+            {
+              params: { email: userEmail },
+            }
+          );
           setNoteData(response.data);
         } catch (error) {
-          console.error('Error fetching note:', error);
+          console.error("Error fetching note:", error);
           setMessage("Error loading note data");
           setMessageType("error");
         }
       }
     };
-    
+
     fetchNoteData();
   }, [noteId]);
 
   const handleShareNote = async (e) => {
     e.preventDefault();
-    
+
     if (!email.trim()) {
       setMessage("Please enter an email address");
       setMessageType("error");
@@ -53,7 +52,7 @@ function ShareNotes() {
     }
 
     // Check if user is trying to share with themselves
-    const senderEmail = localStorage.getItem('email');
+    const senderEmail = localStorage.getItem("email");
     if (email.trim().toLowerCase() === senderEmail.toLowerCase()) {
       setMessage("You cannot share a note with yourself");
       setMessageType("error");
@@ -64,12 +63,15 @@ function ShareNotes() {
     setMessage("");
 
     try {
-      const response = await axios.post('http://localhost:3000/auth/share-note', {
-        noteId: noteId,
-        senderEmail: senderEmail,
-        recipientEmail: email.trim(),
-        noteText: noteData?.text || ""
-      });
+      const response = await axios.post(
+        "https://noteapplication-backend.onrender.com/auth/share-note",
+        {
+          noteId: noteId,
+          senderEmail: senderEmail,
+          recipientEmail: email.trim(),
+          noteText: noteData?.text || "",
+        }
+      );
 
       if (response.data.success) {
         setMessage("Note shared successfully!");
@@ -77,14 +79,14 @@ function ShareNotes() {
         setEmail("");
         // Redirect to AllSharedNotes page after 2 seconds
         setTimeout(() => {
-          navigate('/allsharenote');
+          navigate("/allsharenote");
         }, 2000);
       } else {
         setMessage(response.data.message || "Failed to share note");
         setMessageType("error");
       }
     } catch (error) {
-      console.error('Error sharing note:', error);
+      console.error("Error sharing note:", error);
       if (error.response?.data?.message) {
         setMessage(error.response.data.message);
       } else {
@@ -97,17 +99,20 @@ function ShareNotes() {
   };
 
   const handleBackToNotes = () => {
-    navigate('/notes');
+    navigate("/notes");
   };
 
   const handleViewSharedNotes = () => {
-    navigate('/allsharenote');
+    navigate("/allsharenote");
   };
 
   return (
     <>
       {/* Header */}
-      <div style={{background: '#3366FF'}} className="w-full text-2xl font-bold text-center p-4 text-white">
+      <div
+        style={{ background: "#3366FF" }}
+        className="w-full text-2xl font-bold text-center p-4 text-white"
+      >
         Share Your Note
       </div>
 
@@ -127,26 +132,32 @@ function ShareNotes() {
             {/* Note Preview */}
             {noteData && (
               <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-gray-50 rounded-md border">
-                <h3 className="text-xs sm:text-sm font-semibold text-gray-700 mb-2">Note to Share:</h3>
+                <h3 className="text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                  Note to Share:
+                </h3>
                 <p className="text-gray-800 text-xs sm:text-sm leading-relaxed">
-                  {noteData.text.length > 100 
-                    ? `${noteData.text.substring(0, 100)}...` 
-                    : noteData.text
-                  }
+                  {noteData.text.length > 100
+                    ? `${noteData.text.substring(0, 100)}...`
+                    : noteData.text}
                 </p>
                 <p className="text-xs text-gray-500 mt-2">
-                  Created: {noteData.createdAt ? new Date(noteData.createdAt).toLocaleDateString() : 'Unknown'}
+                  Created:{" "}
+                  {noteData.createdAt
+                    ? new Date(noteData.createdAt).toLocaleDateString()
+                    : "Unknown"}
                 </p>
               </div>
             )}
 
             {/* Message Display */}
             {message && (
-              <div className={`mb-4 p-3 rounded-md text-xs sm:text-sm ${
-                messageType === 'success' 
-                  ? 'bg-green-100 text-green-700 border border-green-300' 
-                  : 'bg-red-100 text-red-700 border border-red-300'
-              }`}>
+              <div
+                className={`mb-4 p-3 rounded-md text-xs sm:text-sm ${
+                  messageType === "success"
+                    ? "bg-green-100 text-green-700 border border-green-300"
+                    : "bg-red-100 text-red-700 border border-red-300"
+                }`}
+              >
                 {message}
               </div>
             )}
@@ -154,7 +165,10 @@ function ShareNotes() {
             {/* Share Form */}
             <form onSubmit={handleShareNote} className="space-y-4 sm:space-y-6">
               <div>
-                <label htmlFor="email" className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
+                <label
+                  htmlFor="email"
+                  className="block text-xs sm:text-sm font-medium text-gray-700 mb-2"
+                >
                   Recipient Email Address
                 </label>
                 <input
@@ -174,9 +188,9 @@ function ShareNotes() {
                   disabled={loading}
                   className="w-full sm:flex-1 bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed font-medium text-sm sm:text-base"
                 >
-                  {loading ? 'Sharing...' : 'Share Note'}
+                  {loading ? "Sharing..." : "Share Note"}
                 </button>
-                
+
                 <button
                   type="button"
                   onClick={handleBackToNotes}
@@ -197,8 +211,6 @@ function ShareNotes() {
                 View All Received Notes
               </button>
             </div>
-
-
           </div>
         </div>
       </div>
