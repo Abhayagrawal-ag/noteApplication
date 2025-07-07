@@ -68,7 +68,7 @@ function VerifyOTP() {
       </p>
 
       <div className="flex flex-col items-center justify-center mt-8">
-        <div className="bg-gray-100 h-[300px] w-[250px] sm:h-[340px] sm:w-[400px] md:h-[470px] md:w-[500px] rounded-md shadow-md flex flex-col items-center justify-center">
+        <div className="bg-gray-100 h-[320px] w-[260px] sm:h-[340px] sm:w-[400px] md:h-[470px] md:w-[500px] rounded-md shadow-md flex flex-col items-center justify-center">
           <form
             onSubmit={handleVerifyOTP}
             className="flex flex-col items-center gap-6 sm:gap-10"
