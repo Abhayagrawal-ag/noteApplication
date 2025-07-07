@@ -79,29 +79,75 @@ router.post('/login', async (req, res) => {
 });
 
 //delete route
-router.delete('/delete', async (req, res) => {
-  const { email,password } = req.body;
-  if (!email || !password) {
-    return res.status(400).json({ message: 'Email and password are required' });
-  }
+// router.delete('/delete', async (req, res) => {
+//   const { email,password } = req.body;
+//   if (!email || !password) {
+//     return res.status(400).json({ message: 'Email and password are required' });
+//   }
+//   try {
+//     const user = await User.findOne({email});
+//     if(!user){
+//       return res.status(404).json({ message: 'User not found' });
+//     }
+//     const isMatch = await bcrypt.compare(password, user.password);
+//     if (!isMatch) {
+//       return res.status(400).json({message: 'Invalid password' });
+//     }
+//     await User.deleteOne({email})
+//     await Note.deleteMany({userEmail: email});
+//     await ShareNote.deleteMany({userEmail: email}); // Also delete shared notes
+//     res.status(200).json({ message: 'User and associated notes deleted successfully' });
+//   } catch (error) {
+//     console.error('Error deleting user:', error);
+//     res.status(500).json({ message: 'Internal server error' });
+//   }
+// });
+
+router.delete('/user/:email', async (req, res) => {
   try {
-    const user = await User.findOne({email});
-    if(!user){
-      return res.status(404).json({ message: 'User not found' });
+    const { email } = req.params;
+    
+    // Decode the email parameter properly
+    const decodedEmail = decodeURIComponent(email);
+    
+    // Validate email parameter
+    if (!decodedEmail) {
+      return res.status(400).json({
+        error: 'Email is required'
+      });
     }
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(400).json({message: 'Invalid password' });
+
+    console.log(`Attempting to delete account for email: ${decodedEmail}`);
+
+    // Delete all notes for this user first
+    const deletedNotes = await Note.deleteMany({ userEmail: decodedEmail });
+    console.log(`Deleted ${deletedNotes.deletedCount} notes for user: ${decodedEmail}`);
+
+    // Delete user account
+    const deletedUser = await User.deleteOne({ email: decodedEmail });
+    
+    if (deletedUser.deletedCount === 0) {
+      return res.status(404).json({
+        error: 'User not found'
+      });
     }
-    await User.deleteOne({email})
-    await Note.deleteMany({userEmail: email});
-    await ShareNote.deleteMany({userEmail: email}); // Also delete shared notes
-    res.status(200).json({ message: 'User and associated notes deleted successfully' });
+
+    console.log(`Successfully deleted account for email: ${decodedEmail}`);
+    
+    res.status(200).json({
+      message: 'Account and all associated notes deleted successfully',
+      deletedNotes: deletedNotes.deletedCount,
+      deletedUser: deletedUser.deletedCount
+    });
   } catch (error) {
-    console.error('Error deleting user:', error);
-    res.status(500).json({ message: 'Internal server error' });
+    console.error('Error deleting account:', error);
+    res.status(500).json({
+      error: 'Internal server error. Failed to delete account.',
+      details: error.message
+    });
   }
 });
+
 
 // verify
 router.post('/verify', async (req, res) => {
