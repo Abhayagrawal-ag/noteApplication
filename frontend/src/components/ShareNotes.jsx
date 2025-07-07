@@ -79,7 +79,7 @@ function ShareNotes() {
         setEmail("");
         // Redirect to AllSharedNotes page after 2 seconds
         setTimeout(() => {
-          navigate("/allsharenote");
+          navigate("/notes");
         }, 2000);
       } else {
         setMessage(response.data.message || "Failed to share note");
