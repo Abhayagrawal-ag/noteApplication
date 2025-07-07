@@ -137,6 +137,12 @@ function About() {
             or creative thinker, our app is designed to capture your ideas effortlessly and help you stay organized across all your devices.
           </p>
         </div>
+         <div className="bg-white rounded-2xl mt-4 p-8 md:p-12 text-center shadow-lg border border-gray-200">
+          <h3 className="text-3xl font-bold text-gray-900 mb-6">Security and Privacy</h3>
+          <p className="text-lg text-gray-700 max-w-3xl mx-auto leading-relaxed">
+           Your notes are protected with industry-standard security measures. All data is encrypted during transmission and storage. We follow strict privacy policies - your notes remain completely private and are never shared with third parties.
+          </p>
+        </div>
       </main>
 
       {/* Footer */}
