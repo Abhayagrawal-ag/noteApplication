@@ -96,7 +96,7 @@ function NewPassword() {
       </p>
 
       <div className="flex flex-col items-center justify-center mt-8">
-        <div className="bg-gray-100 h-[380px] w-[250px] sm:h-[420px] sm:w-[400px] md:h-[550px] md:w-[500px] rounded-md shadow-md flex flex-col items-center justify-center">
+        <div className="bg-gray-100 h-[4290px] w-[260px] sm:h-[420px] sm:w-[400px] md:h-[550px] md:w-[500px] rounded-md shadow-md flex flex-col items-center justify-center">
           <form
             onSubmit={handleResetPassword}
             className="flex flex-col items-center gap-6 sm:gap-10"
@@ -116,7 +116,7 @@ function NewPassword() {
                 placeholder="Enter new password"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
-                className="border border-gray-300 p-3 rounded-md w-full placeholder:text-xl placeholder:sm:text-2xl placeholder:md:text-2xl pr-12"
+                className="border border-gray-300 p-3 rounded-md w-full  placeholder:sm:text-2xl placeholder:md:text-2xl pr-12"
                 disabled={isLoading}
               />
               <button

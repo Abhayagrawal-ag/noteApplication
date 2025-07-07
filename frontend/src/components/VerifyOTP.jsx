@@ -88,7 +88,7 @@ function VerifyOTP() {
               onChange={(e) =>
                 setCode(e.target.value.replace(/\D/g, "").slice(0, 6))
               }
-              className="border border-gray-300 p-3 rounded-md w-50 sm:w-80 md:w-80 placeholder:text-xl placeholder:sm:text-2xl placeholder:md:text-2xl text-center tracking-widest"
+              className="border border-gray-300 p-3 rounded-md w-50 sm:w-80 md:w-80  placeholder:sm:text-2xl placeholder:md:text-2xl text-center tracking-widest"
               disabled={isLoading}
               maxLength={6}
             />

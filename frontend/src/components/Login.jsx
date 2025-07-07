@@ -134,7 +134,7 @@ function Login() {
         Welcome Back to DailyDrafts
       </p>
       <div className="flex flex- items-center  justify-center mt-8">
-        <div className="bg-gray-100 h-[310px] w-[250px] sm:h-[350px] sm:w-[400px] md:h-[500px] md:w-[500px] rounded-md shadow-md flex flex-col items-center justify-center">
+        <div className="bg-gray-100 h-[350px] w-[260px] sm:h-[350px] sm:w-[400px] md:h-[500px] md:w-[500px] rounded-md shadow-md flex flex-col items-center justify-center">
           <form
             onSubmit={handleLogin}
             className="flex flex-col items-center gap-6 sm:gap-10  "
