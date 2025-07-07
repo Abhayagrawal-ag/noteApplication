@@ -9,6 +9,9 @@ import ShareNotes from './components/ShareNotes';
 import AllSharedNotes from './components/AllSharedNotes';
 import First from './components/First';
 import About from './components/About';
+import EmailFP from './components/EmailFP';
+import VerifyOTP from './components/VerifyOTP';
+import NewPassword from './components/NewPassword';
 
 function App() {
   return (
@@ -21,6 +24,9 @@ function App() {
       <Route path="/allsharenote" element={<AllSharedNotes />} />
        <Route path="/" element={<First />} />
         <Route path="about" element={<About />} />
+        <Route path="emailfp" element={<EmailFP />} />
+        <Route path="/verifyotp" element={<VerifyOTP />} />
+        <Route path="/newpassword" element={<NewPassword />} />
 
       
     </Routes>

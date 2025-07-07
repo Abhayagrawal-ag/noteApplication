@@ -21,6 +21,14 @@ const userSchema = new mongoose.Schema({
   verificationCodeExpires:{
     type:Date,
     required:true
+  },
+   passwordResetCode:{
+    type:String,
+     // Optional field
+  },
+  passwordResetCodeExpires:{
+    type:Date,
+     // Optional field
   }
   
 }, { timestamps: true });

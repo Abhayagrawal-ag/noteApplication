@@ -79,29 +79,29 @@ router.post('/login', async (req, res) => {
 });
 
 //delete route
-router.delete('/delete', async (req, res) => {
-  const { email,password } = req.body;
-  if (!email || !password) {
-    return res.status(400).json({ message: 'Email and password are required' });
-  }
-  try {
-    const user = await User.findOne({email});
-    if(!user){
-      return res.status(404).json({ message: 'User not found' });
-    }
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(400).json({message: 'Invalid password' });
-    }
-    await User.deleteOne({email})
-    await Note.deleteMany({userEmail: email});
-    await ShareNote.deleteMany({userEmail: email}); // Also delete shared notes
-    res.status(200).json({ message: 'User and associated notes deleted successfully' });
-  } catch (error) {
-    console.error('Error deleting user:', error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
-});
+// router.delete('/delete', async (req, res) => {
+//   const { email,password } = req.body;
+//   if (!email || !password) {
+//     return res.status(400).json({ message: 'Email and password are required' });
+//   }
+//   try {
+//     const user = await User.findOne({email});
+//     if(!user){
+//       return res.status(404).json({ message: 'User not found' });
+//     }
+//     const isMatch = await bcrypt.compare(password, user.password);
+//     if (!isMatch) {
+//       return res.status(400).json({message: 'Invalid password' });
+//     }
+//     await User.deleteOne({email})
+//     await Note.deleteMany({userEmail: email});
+//     await ShareNote.deleteMany({userEmail: email}); // Also delete shared notes
+//     res.status(200).json({ message: 'User and associated notes deleted successfully' });
+//   } catch (error) {
+//     console.error('Error deleting user:', error);
+//     res.status(500).json({ message: 'Internal server error' });
+//   }
+// });
 
 // verify
 router.post('/verify', async (req, res) => {
@@ -405,6 +405,229 @@ router.delete('/shared-notes/:id', async (req, res) => {
   } catch (error) {
     console.error('Error deleting shared note:', error);
     res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
+router.delete('/user/:email', async (req, res) => {
+  try {
+    const { email } = req.params;
+    
+    // Decode the email parameter properly
+    const decodedEmail = decodeURIComponent(email);
+    
+    // Validate email parameter
+    if (!decodedEmail) {
+      return res.status(400).json({
+        error: 'Email is required'
+      });
+    }
+
+    console.log(`Attempting to delete account for email: ${decodedEmail}`);
+
+    // Delete all notes for this user first
+    const deletedNotes = await Note.deleteMany({ userEmail: decodedEmail });
+    console.log(`Deleted ${deletedNotes.deletedCount} notes for user: ${decodedEmail}`);
+
+    // Delete user account
+    const deletedUser = await User.deleteOne({ email: decodedEmail });
+    
+    if (deletedUser.deletedCount === 0) {
+      return res.status(404).json({
+        error: 'User not found'
+      });
+    }
+
+    console.log(`Successfully deleted account for email: ${decodedEmail}`);
+    
+    res.status(200).json({
+      message: 'Account and all associated notes deleted successfully',
+      deletedNotes: deletedNotes.deletedCount,
+      deletedUser: deletedUser.deletedCount
+    });
+  } catch (error) {
+    console.error('Error deleting account:', error);
+    res.status(500).json({
+      error: 'Internal server error. Failed to delete account.',
+      details: error.message
+    });
+  }
+});
+
+
+//  new code for forgot password functionality:
+// Send OTP for Password Reset
+// Send OTP for Password Reset
+router.post('/send-otp', async (req, res) => {
+  try {
+    const { email } = req.body;
+    
+    if (!email) {
+      return res.status(400).json({ message: 'Email is required' });
+    }
+    
+    if (!validator.isEmail(email)) {
+      return res.status(400).json({
+        message: 'Invalid email format' 
+      });
+    }
+    
+    // Check if user exists and is verified
+    const existingUser = await User.findOne({ email });
+    if (!existingUser) {
+      return res.status(404).json({ 
+        message: 'No account found with this email address' 
+      });
+    }
+    
+    if (!existingUser.isVerified) {
+      return res.status(400).json({ 
+        message: 'Please verify your email first before resetting password' 
+      });
+    }
+    
+    // Generate OTP for password reset
+    const resetCode = Math.floor(100000 + Math.random() * 900000).toString();
+    const resetCodeExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
+    
+    // Update user with reset code
+    await User.findOneAndUpdate(
+      { email },
+      { 
+        $set: { 
+          passwordResetCode: resetCode,
+          passwordResetCodeExpires: resetCodeExpires
+        }
+      }
+    );
+    
+    // Send OTP via email
+    SendVerificationCode(email, resetCode); // Using your existing email function
+    
+    res.status(200).json({ 
+      message: 'Password reset OTP sent successfully to your email' 
+    });
+    
+  } catch (error) {
+    console.error('Error sending password reset OTP:', error);
+    res.status(500).json({ 
+      message: 'Internal server error' 
+    });
+  }
+});
+
+// Verify OTP for Password Reset
+router.post('/verify-otp', async (req, res) => {
+  try {
+    const { code } = req.body;
+    console.log('Password reset OTP verification attempt with code:', code);
+    console.log('Code type:', typeof code);
+    
+    if (!code) {
+      return res.status(400).json({ 
+        message: "OTP code is required" 
+      });
+    }
+    
+    // Convert code to string to match database storage
+    const codeString = code.toString();
+    
+    const user = await User.findOne({
+      passwordResetCode: codeString,
+    });
+    
+    console.log('User found for password reset:', user ? 'Yes' : 'No');
+    console.log('Searching for code:', codeString);
+    
+    if (!user) {
+      // Additional debug: Check if any user has a reset code
+      const allUsersWithResetCode = await User.find({ passwordResetCode: { $exists: true } });
+      console.log('Users with reset codes:', allUsersWithResetCode.map(u => ({ email: u.email, code: u.passwordResetCode, expires: u.passwordResetCodeExpires })));
+      
+      return res.status(400).json({  
+        message: "Invalid or expired OTP code" 
+      });
+    }
+    
+    console.log('Found user:', user.email);
+    console.log('User reset code:', user.passwordResetCode);
+    console.log('Reset code expires:', user.passwordResetCodeExpires);
+    console.log('Current time:', new Date());
+    
+    if (new Date() > user.passwordResetCodeExpires) {
+      return res.status(400).json({
+        message: "OTP code has expired. Please request a new one"
+      });
+    }
+    
+    console.log('OTP verified successfully for:', user.email);
+    res.status(200).json({ 
+      message: "OTP verified successfully! You can now reset your password.",
+      email: user.email // Send email back for password reset
+    }); 
+    
+  } catch (error) {
+    console.error('OTP verification error:', error);
+    res.status(500).json({  
+      message: "Internal server error" 
+    });
+  }
+});
+
+// Reset Password
+router.post('/reset-password', async (req, res) => {
+  try {
+    const { email, newPassword, code } = req.body;
+    
+    if (!email || !newPassword || !code) {
+      return res.status(400).json({ 
+        message: 'Email, new password, and OTP code are required' 
+      });
+    }
+    
+    // Find user with valid reset code
+    const user = await User.findOne({
+      email,
+      passwordResetCode: code,
+    });
+    
+    if (!user) {
+      return res.status(400).json({  
+        message: "Invalid or expired OTP code" 
+      });
+    }
+    
+    if (new Date() > user.passwordResetCodeExpires) {
+      return res.status(400).json({
+        message: "OTP code has expired. Please request a new one"
+      });
+    }
+    
+    // Hash new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    
+    // Update password and remove reset code
+    await User.findOneAndUpdate(
+      { _id: user._id },
+      { 
+        $set: { password: hashedPassword },
+        $unset: { 
+          passwordResetCode: 1,
+          passwordResetCodeExpires: 1
+        }
+      }
+    );
+    
+    console.log('Password reset successfully for:', user.email);
+    res.status(200).json({ 
+      message: "Password reset successfully! You can now log in with your new password." 
+    }); 
+    
+  } catch (error) {
+    console.error('Password reset error:', error);
+    res.status(500).json({  
+      message: "Internal server error" 
+    });
   }
 });
 
