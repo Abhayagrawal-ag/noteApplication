@@ -63,7 +63,7 @@ function NewPassword() {
       localStorage.removeItem("resetCode");
 
       toast.success(
-        "Password reset successfully! Please login with your new password",
+        "Password reset successfully!",
         {
           autoClose: 2000,
         }
@@ -116,7 +116,7 @@ function NewPassword() {
                 placeholder="Enter new password"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
-                className="border border-gray-300 p-3 rounded-md w-full  placeholder:sm:text-2xl placeholder:md:text-2xl pr-12"
+                className="border border-gray-300 p-3 rounded-md w-full placeholder:text-xs placeholder:sm:text-2xl placeholder:md:text-2xl pr-12"
                 disabled={isLoading}
               />
               <button
@@ -139,7 +139,7 @@ function NewPassword() {
                 placeholder="Confirm new password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="border border-gray-300 p-3 rounded-md w-full placeholder:text-xl placeholder:sm:text-2xl placeholder:md:text-2xl pr-12"
+                className="border border-gray-300 p-3 rounded-md w-full placeholder:text-xs placeholder:sm:text-2xl placeholder:md:text-2xl pr-12"
                 disabled={isLoading}
               />
               <button
