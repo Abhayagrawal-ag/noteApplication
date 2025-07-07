@@ -199,7 +199,7 @@ function First() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h3 className="text-2xl font-bold mb-4">NotesApp</h3>
           <p className="text-gray-400 mb-4">Your digital notebook for all your ideas</p>
-          <div className="flex justify-center space-x-6">
+          {/* <div className="flex justify-center space-x-6">
             <button
               onClick={handleAbout}
               className="text-gray-400 hover:text-white transition-colors"
@@ -218,7 +218,7 @@ function First() {
             >
               Sign Up
             </button>
-          </div>
+          </div> */}
           <p className="text-gray-400 mt-4">© 2025 NotesApp. All rights reserved.</p>
         </div>
       </footer>

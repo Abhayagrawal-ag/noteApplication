@@ -12,8 +12,38 @@ import {Eye, EyeOff} from 'lucide-react'
   const changeroute = () => {
     navigate("/emailfp")
   }
-  
-
+  // const handleLogin = async (e) => {
+  //   e.preventDefault();
+  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  //   if (!email || !password) {
+  //     return toast.error('Error: Please fill in all fields', {
+  //       autoClose: 1500,
+  //     });
+  //   }
+  //   if (!emailRegex.test(email)) {
+  //     return toast.error('Error: Please enter a valid email address', {
+  //       autoClose: 1500,
+  //     });
+  //   }
+  //    if (password.length < 8) {
+  //          return toast.error('Error: Password must be at least 8 characters long', {
+  //           autoClose: 1500,
+  //         });
+  //       }
+  //   try {
+  //     const response = await axios.post('http://localhost:3000/auth/login', { email, password });  
+  //     localStorage.setItem('email', email);
+  //     toast.success('Sign in successful', {
+  //       autoClose: 1500,
+  //     });
+  //     navigate('/home');
+  //   } catch (error) {
+  //     const errorMessage = error.response?.data?.message || 'error during Sign in';
+  //     toast.error('Either you are not registered or your email is not verified', {
+  //       autoClose: 1500,
+  //     });
+  //   }
+  // };
   const handleLogin = async (e) => {
   e.preventDefault();
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -94,37 +124,8 @@ import {Eye, EyeOff} from 'lucide-react'
         autoClose: 1500,
       });
     }
-<<<<<<< HEAD
   }
 };
-
- 
-=======
-    if (!emailRegex.test(email)) {
-      return toast.error('Error: Please enter a valid email address', {
-        autoClose: 1500,
-      });
-    }
-     if (password.length < 8) {
-           return toast.error('Error: Password must be at least 8 characters long', {
-            autoClose: 1500,
-          });
-        }
-    try {
-      const response = await axios.post('https://noteapplication-backend.onrender.com/auth/login', { email, password });  
-      localStorage.setItem('email', email);
-      toast.success('Sign in successful', {
-        autoClose: 1500,
-      });
-      navigate('/home');
-    } catch (error) {
-      const errorMessage = error.response?.data?.message || 'error during Sign in';
-      toast.error('Either you are not registered or your email is not verified', {
-        autoClose: 1500,
-      });
-    }
-  };
->>>>>>> 3fd29a5cb37b6b39d4ce0670aa34472fbff58b2e
   return (
     <>
       <p style={{background: '#3366FF'}} className='w-full font-bold p-3 text-2xl sm:text-3xl md:text-4xl text-white text-center'>Welcome Back to DailyDrafts</p>

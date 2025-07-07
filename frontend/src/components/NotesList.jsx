@@ -22,7 +22,7 @@ function NotesList(){
     const fetchNotes = async () => {
       try {
         const userEmail = localStorage.getItem('email');
-        const response = await axios.get('https://noteapplication-backend.onrender.com/notes',{params: { email: userEmail }});
+        const response = await axios.get('http://localhost:3000/notes',{params: { email: userEmail }});
         setNotes(response.data);
         setFilteredNotes(response.data);
       } catch (error) {
@@ -52,7 +52,7 @@ function NotesList(){
   const deleteNote = async (id) => {
     try {
       const userEmail = localStorage.getItem('email');
-      await axios.delete(`https://noteapplication-backend.onrender.com/notes/${id}`, { params: { email: userEmail } });
+      await axios.delete(`http://localhost:3000/notes/${id}`, { params: { email: userEmail } });
       const updatedNotes = notes.filter(note => note._id !== id);
       setNotes(updatedNotes);
     } catch (error) {
@@ -73,7 +73,7 @@ function NotesList(){
   const saveEdit = async (id) => {
     try {
       const userEmail = localStorage.getItem('email');
-      const response = await axios.put(`https://noteapplication-backend.onrender.com/notes/${id}`, {
+      const response = await axios.put(`http://localhost:3000/notes/${id}`, {
         text: editText,
         email: userEmail
       });

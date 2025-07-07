@@ -102,8 +102,6 @@ router.post('/login', async (req, res) => {
 //     res.status(500).json({ message: 'Internal server error' });
 //   }
 // });
-<<<<<<< HEAD
-=======
 
 router.delete('/user/:email', async (req, res) => {
   try {
@@ -149,7 +147,6 @@ router.delete('/user/:email', async (req, res) => {
     });
   }
 });
->>>>>>> 3fd29a5cb37b6b39d4ce0670aa34472fbff58b2e
 
 
 // verify

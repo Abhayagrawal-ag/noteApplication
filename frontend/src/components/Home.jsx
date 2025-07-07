@@ -1,6 +1,4 @@
-<<<<<<< HEAD
 
-=======
 // import React from 'react';
 // import axios from 'axios';
 // import {toast} from 'react-toastify';
@@ -44,7 +42,6 @@
 //   );
 // }
 // export default Home
->>>>>>> 3fd29a5cb37b6b39d4ce0670aa34472fbff58b2e
 
 import React from 'react';
 import axios from 'axios';
@@ -66,11 +63,8 @@ function Home() {
     
     try {
       const userEmail = localStorage.getItem('email');
-<<<<<<< HEAD
       const response = await axios.post('http://localhost:3000/notes', { text, userEmail });
-=======
-      const response = await axios.post('https://noteapplication-backend.onrender.com/notes', { text, userEmail });
->>>>>>> 3fd29a5cb37b6b39d4ce0670aa34472fbff58b2e
+      // const response = await axios.post('https://noteapplication-backend.onrender.com/notes', { text, userEmail });
       toast.success('Note added successfully', {
         autoClose: 1500,
       });
@@ -104,11 +98,8 @@ function Home() {
       
       // API call to delete user account and all notes
       // Route is under /auth prefix as per your index.js
-<<<<<<< HEAD
       const response = await axios.delete(`http://localhost:3000/auth/user/${encodeURIComponent(userEmail)}`);
-=======
-      const response = await axios.delete(`https://noteapplication-backend.onrender.com/auth/user/${encodeURIComponent(userEmail)}`);
->>>>>>> 3fd29a5cb37b6b39d4ce0670aa34472fbff58b2e
+      // const response = await axios.delete(`https://noteapplication-backend.onrender.com/auth/user/${encodeURIComponent(userEmail)}`);
       
       console.log('Delete response:', response.data);
       
@@ -247,8 +238,5 @@ function Home() {
   );
 }
 
-<<<<<<< HEAD
 export default Home;
-=======
-export default Home;
->>>>>>> 3fd29a5cb37b6b39d4ce0670aa34472fbff58b2e
+// export default Home;
