@@ -12,6 +12,7 @@ import About from './components/About';
 import EmailFP from './components/EmailFP';
 import VerifyOTP from './components/VerifyOTP';
 import NewPassword from './components/NewPassword';
+import SentNotes from './components/SentNotes';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="emailfp" element={<EmailFP />} />
         <Route path="/verifyotp" element={<VerifyOTP />} />
         <Route path="/newpassword" element={<NewPassword />} />
+                <Route path="/sentnotes" element={<SentNotes />} />
 
       
     </Routes>

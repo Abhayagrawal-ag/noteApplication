@@ -677,6 +677,44 @@ router.post('/reset-password', async (req, res) => {
   }
 });
 
+
+router.get("/sent-notes", async (req, res) => {
+  try {
+    const { senderEmail } = req.query;
+    
+    if (!senderEmail) {
+      return res.status(400).json({
+        success: false,
+        message: "Sender email is required",
+      });
+    }
+
+    console.log("Fetching sent notes for sender:", senderEmail);
+
+    // Query ShareNote collection for notes sent by this user
+    const sentNotes = await ShareNote.find({ 
+      sharedFrom: senderEmail 
+    })
+    .sort({ createdAt: -1 })
+    .lean();
+
+    console.log("Found sent notes count:", sentNotes.length);
+    console.log("Sample note:", sentNotes[0]); // Debug first note
+
+    res.json({
+      success: true,
+      sentNotes: sentNotes,
+      count: sentNotes.length,
+    });
+  } catch (error) {
+    console.error("Error fetching sent notes:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error occurred",
+    });
+  }
+});
+
 export default router;
 
 

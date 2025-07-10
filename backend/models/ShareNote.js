@@ -11,15 +11,15 @@ const noteSchema = new mongoose.Schema({
   },
   sharedFrom: {
     type: String,
-    default: null
+    required:true
   },
   originalNoteId: {
     type: mongoose.Schema.Types.ObjectId,
-    default: null
+    required:true
   },
   isShared: {
     type: Boolean,
-    default: false
+    default: true
   }
 }, {
   timestamps: true
