@@ -182,7 +182,7 @@ function NotesList() {
             </button>
              <button
               onClick={handleViewSentNotes}
-              style={{ background: "#ffc107" }}
+              style={{ background: "#28a745" }}
               className="px-4 py-2  text-white rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500"
             >
               View Sent Notes
